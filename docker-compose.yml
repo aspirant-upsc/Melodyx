@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  bot:
+    build: .
+    environment:
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - DATABASE_URL=${DATABASE_URL}
+    restart: unless-stopped
+  dashboard:
+    build: ./dashboard
+    working_dir: /app/dashboard
+    command: uvicorn main:app --host 0.0.0.0 --port 8000
+    environment:
+      - ADMIN_DASH_TOKEN=${ADMIN_DASH_TOKEN}
+    ports:
+      - '8000:8000'
